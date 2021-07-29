@@ -59,4 +59,14 @@ describe('03_separation-of-concerns-demo routes', () => {
         expect(res.body).toEqual({ id: '1', quantity: 11 });
       });
   });
+
+  it('sends a text message when order is deleted', async () => {
+    const order = await Order.insert({ quantity: 10 });
+
+    return request(app)
+      .delete(`/api/v1/orders/${order.id}`)
+      .then((res) => {
+        expect(res.body).not.toEqual(order);
+      });
+  });
 });
